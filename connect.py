@@ -9,11 +9,3 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
-
-sql = "INSERT INTO users (name, address) VALUES (%s, %s)"
-val = ("Bob", "Smith Street 1232")
-mycursor.execute(sql, val)
-
-mydb.commit()
-
-print(mycursor.rowcount, "record inserted.")

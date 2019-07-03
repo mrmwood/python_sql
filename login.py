@@ -1,21 +1,16 @@
 import connect
-from hash import hash_password
+from hash import verify_password
 
 un = input("Username: ")
 pw = input("Password: ")
-#Hash the password
-hashed_pw = hash_password(pw)
-print(hashed_pw)
 
-sql = "SELECT * FROM users WHERE name = %s AND password = %s"
-adr = (un, hashed_pw)
+sql = "SELECT password FROM users WHERE name = %s"
+adr = (un, )
 connect.mycursor.execute(sql, adr)
 
 myresult = connect.mycursor.fetchall()
 
-for x in myresult:
-  print(x)
-
-
-# NOTE: Hashing algorithm is creating a different hash value each time the same value is hashed which it shouldn't.
-# Need to look at alternative hashing algorithms for Python or look over the current one I am using
+#will get the hashed passord as a string from the database
+print(myresult[0][0])
+#checks the hashed pw from the db against the one entered by the user
+print(verify_password(myresult[0][0], pw))
